@@ -5,7 +5,7 @@ namespace GPTsanOekakidesuyoCS.Services
 {
     public class GetSessionService
     {
-        public GetSessionResponse run() 
+        public async Task<GetSessionResponse> run() 
         { 
             // TODO: DB問い合わせ
 

@@ -23,9 +23,9 @@ namespace GPTsanOekakidesuyoCS.Controllers.session
         }
 
         [HttpGet(Name = "GetSessionController")]
-        public GetSessionResponse Get(int id)
+        public async Task<ActionResult<GetSessionResponse>> Get(int id)
         {
-            return _getSessionService.run();
+            return await _getSessionService.run();
         }
     }
 }

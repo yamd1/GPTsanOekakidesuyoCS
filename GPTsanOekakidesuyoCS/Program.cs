@@ -1,4 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using GPTsanOekakidesuyoCS.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<GPTsanOekakidesuyoCSContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("GPTsanOekakidesuyoCSContext") ?? throw new InvalidOperationException("Connection string 'GPTsanOekakidesuyoCSContext' not found.")));
 
 // Add services to the container.
 
