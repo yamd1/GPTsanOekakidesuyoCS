@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GPTsanOekakidesuyoCS.Responses.Session;
+using GPTsanOekakidesuyoCS.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GPTsanOekakidesuyoCS.Controllers.session
 {
@@ -8,15 +10,22 @@ namespace GPTsanOekakidesuyoCS.Controllers.session
     public class SessionController : ControllerBase
     {
         private readonly ILogger<SessionController> _logger;
-        public SessionController(ILogger<SessionController> logger) 
-        {
+
+        // TODO: DI
+        private GetSessionService _getSessionService = new GetSessionService();
+
+        public SessionController(
+            ILogger<SessionController> logger
+            // GetSessionService getSessionService
+        ) {
             _logger = logger;
+            // _getSessionService = getSessionService;
         }
 
         [HttpGet(Name = "GetSessionController")]
-        public string Get(int id)
+        public GetSessionResponse Get(int id)
         {
-            return id.ToString();
+            return _getSessionService.run();
         }
     }
 }
