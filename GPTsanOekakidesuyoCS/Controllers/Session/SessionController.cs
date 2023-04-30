@@ -1,4 +1,9 @@
-﻿using GPTsanOekakidesuyoCS.Responses.Session;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using GPTsanOekakidesuyoCS.Data;
+using GPTsanOekakidesuyoCS.Responses.Session;
 using GPTsanOekakidesuyoCS.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,16 +15,17 @@ namespace GPTsanOekakidesuyoCS.Controllers.session
     public class SessionController : ControllerBase
     {
         private readonly ILogger<SessionController> _logger;
-
-        // TODO: DI
-        private GetSessionService _getSessionService = new GetSessionService();
+        private readonly GPTsanOekakidesuyoCSContext _context;
+        private IGetSessionService _getSessionService;
 
         public SessionController(
-            ILogger<SessionController> logger
-            // GetSessionService getSessionService
+            ILogger<SessionController> logger,
+            GPTsanOekakidesuyoCSContext context,
+            IGetSessionService getSessionService
         ) {
             _logger = logger;
-            // _getSessionService = getSessionService;
+            _context = context;
+            _getSessionService = getSessionService;
         }
 
         [HttpGet(Name = "GetSessionController")]

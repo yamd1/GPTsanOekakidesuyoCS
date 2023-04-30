@@ -1,13 +1,28 @@
 ﻿using GPTsanOekakidesuyoCS.Responses.Session;
 using GPTsanOekakidesuyoCS.Responses.Message;
+using GPTsanOekakidesuyoCS.Data;
+
+public interface IGetSessionService
+{
+    Task<GetSessionResponse> run();
+}
 
 namespace GPTsanOekakidesuyoCS.Services
 {
-    public class GetSessionService
+    public class GetSessionService : IGetSessionService
     {
-        public async Task<GetSessionResponse> run() 
+
+        private GPTsanOekakidesuyoCSContext _context;
+        public GetSessionService(GPTsanOekakidesuyoCSContext context)
         { 
+            _context = context;
+        }
+
+        public async Task<GetSessionResponse> run() 
+        {
             // TODO: DB問い合わせ
+            var dbResponse = await _context.Session.FindAsync(1);
+            Console.WriteLine(dbResponse);
 
             // DB返却のモック
             var mockSession = new Models.Session();
