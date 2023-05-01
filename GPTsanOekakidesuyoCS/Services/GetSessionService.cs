@@ -26,8 +26,8 @@ namespace GPTsanOekakidesuyoCS.Services
 
             // DB返却のモック
             var mockSession = new Models.Session();
-            mockSession.Id = 1;
-            mockSession.Name = "test";
+            mockSession.Id = dbResponse.Id;
+            mockSession.Name = dbResponse.Name;
 
             var mockMessages = new List<Models.Message>();
             var mockMessage = new Models.Message();

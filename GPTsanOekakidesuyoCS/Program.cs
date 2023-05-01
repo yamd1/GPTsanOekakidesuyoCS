@@ -8,6 +8,18 @@ builder.Services.AddDbContext<GPTsanOekakidesuyoCSContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("GPTsanOekakidesuyoCSContext") ?? throw new InvalidOperationException("Connection string 'GPTsanOekakidesuyoCSContext' not found.")));
 builder.Services.AddTransient<IGetSessionService, GetSessionService>();
 
+var provider = builder.Services.BuildServiceProvider();
+try
+{
+    var context = provider.GetRequiredService<GPTsanOekakidesuyoCSContext>();
+    DbInitializer.SeedingAsync(context);
+}
+catch (Exception ex)
+{
+    var logger = provider.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "データベース初期化中エラー");
+}
+
 // Add services to the container.
 
 builder.Services.AddControllers();
