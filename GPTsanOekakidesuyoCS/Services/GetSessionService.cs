@@ -9,10 +9,16 @@ public interface IGetSessionService
 
 namespace GPTsanOekakidesuyoCS.Services
 {
+    /**
+     * ビジネスロジック
+     */
     public class GetSessionService : IGetSessionService
     {
-
+        // DI対象フィールドを定義
         private GPTsanOekakidesuyoCSContext _context;
+
+        // DIを用いて初期化
+        // Program.csで対象をDIコンテナに登録済み
         public GetSessionService(GPTsanOekakidesuyoCSContext context)
         { 
             _context = context;
@@ -20,9 +26,9 @@ namespace GPTsanOekakidesuyoCS.Services
 
         public async Task<GetSessionResponse> run() 
         {
-            // TODO: DB問い合わせ
+            // TODO: DB問い合わせ(リレーション)
+            // TODO: DB問い合わせクラスにコードを移動
             var dbResponse = await _context.Session.FindAsync(1);
-            Console.WriteLine(dbResponse);
 
             // DB返却のモック
             var mockSession = new Models.Session();
