@@ -14,6 +14,10 @@ public class DbInitializer
             new Session { Name = "Test2 ", CreatedAt = new DateTime(2023-05-01), UpdatedAt = null},
             new Session { Name = "Test3 ", CreatedAt = new DateTime(2023-05-01), UpdatedAt = null}
             );
+        await context.Message.AddRangeAsync(
+            new Message { SessionsId = 1, Role = "user", Content = "Test User Content1", CreatedAt = new DateTime(2023 - 05 - 01), UpdatedAt = null },
+            new Message { SessionsId = 1, Role = "assistant", Content = "Test Assistant Content1", CreatedAt = new DateTime(2023 - 05 - 01), UpdatedAt = null }
+            );
         await context.SaveChangesAsync();
     }
 }

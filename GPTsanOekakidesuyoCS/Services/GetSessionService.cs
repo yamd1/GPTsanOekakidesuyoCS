@@ -26,20 +26,27 @@ namespace GPTsanOekakidesuyoCS.Services
 
         public async Task<GetSessionResponse> run() 
         {
-            // TODO: DB問い合わせ(リレーション)
+            // TODO: Firstではなく、Messageを複数取得、レスポンスを構築するように修正
             // TODO: DB問い合わせクラスにコードを移動
-            var dbResponse = await _context.Session.FindAsync(1);
+            var dbResponse =  _context.Session.Join(_context.Message,
+                b => b.Id,
+                m => m.SessionsId,
+                (joinSession, joinMessage) => new 
+                {
+                    Session = joinSession,
+                    Message = joinMessage
+                }
+                ).Where( e => e.Session.Id.Equals(1)).First();
 
-            // DB返却のモック
             var mockSession = new Models.Session();
-            mockSession.Id = dbResponse.Id;
-            mockSession.Name = dbResponse.Name;
+            mockSession.Id = dbResponse.Session.Id;
+            mockSession.Name = dbResponse.Session.Name;
 
             var mockMessages = new List<Models.Message>();
             var mockMessage = new Models.Message();
-            mockMessage.Id = 1;
-            mockMessage.Role = "user";
-            mockMessage.Content = "test";
+            mockMessage.Id = dbResponse.Message.Id;
+            mockMessage.Role = dbResponse.Message.Role;
+            mockMessage.Content = dbResponse.Message.Content;
             mockMessages.Add(mockMessage);
 
             return CreateResponse(mockSession, mockMessages);
