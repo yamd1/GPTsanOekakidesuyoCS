@@ -2,11 +2,24 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using GPTsanOekakidesuyoCS.Data;
 using GPTsanOekakidesuyoCS.Services;
+using GPTsanOekakidesuyoCS.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<GPTsanOekakidesuyoCSContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("GPTsanOekakidesuyoCSContext") ?? throw new InvalidOperationException("Connection string 'GPTsanOekakidesuyoCSContext' not found.")));
 builder.Services.AddTransient<IGetSessionService, GetSessionService>();
+//builder.Services.AddTransient<ISessionRepository, SessionRepository>();
+
+//builder.Services.AddCors(options =>
+//{
+//    options.AddDefaultPolicy(
+//        policy =>
+//        {
+//            policy.WithOrigins("http://localhost:5227")
+//            .AllowAnyMethod()
+//            .AllowAnyHeader();
+//        });
+//});
 
 var provider = builder.Services.BuildServiceProvider();
 try
@@ -35,6 +48,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//app.UseCors();
 
 app.UseAuthorization();
 
