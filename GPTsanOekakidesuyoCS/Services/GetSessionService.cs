@@ -17,12 +17,14 @@ namespace GPTsanOekakidesuyoCS.Services
     {
         // DI対象フィールドを定義
         private ISessionRepository _sessionRepository;
+        private GPTsanOekakidesuyoCSContext _context;
 
         // DIを用いて初期化
         // Program.csで対象をDIコンテナに登録済み
-        public GetSessionService(ISessionRepository sessionRepository) 
+        public GetSessionService(ISessionRepository sessionRepository, GPTsanOekakidesuyoCSContext context) 
         {
             _sessionRepository = sessionRepository;
+            _context = context;
         }
 
         public async Task<GetSessionResponse> run(int id) 
@@ -31,13 +33,24 @@ namespace GPTsanOekakidesuyoCS.Services
             // TODO: DB問い合わせクラスにコードを移動
             var dbResponses = await _sessionRepository.FindById(id);
 
-            foreach (var i in dbResponses)
+            //var dbResponses =  _context.Session
+            //        .Join(_context.Message,
+            //            b => b.Id,
+            //            m => m.SessionsId,
+            //            (joinSession, joinMessage) => new 
+            //            {
+            //                Session = joinSession,
+            //                Message = joinMessage
+            //            }
+            //        )
+            //        .Where( e => e.Session.Id.Equals(id));
+            foreach (var dbResponse in dbResponses)
             {
-                Console.WriteLine(i);
+                dbResponse.Session.Id;
             }
             var mockSession = new Models.Session();
-            //mockSession.Id = dbResponse.Session.Id;
-            //mockSession.Name = dbResponse.Session.Name;
+            //mockSession.Id = dbResponses.
+            //mockSession.Name = dbResponses.Session.Name;
 
             var mockMessages = new List<Models.Message>();
             var mockMessage = new Models.Message();

@@ -1,4 +1,6 @@
 ﻿using GPTsanOekakidesuyoCS.Data;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.OpenApi.Any;
 using NuGet.Protocol.Core.Types;
 
 public interface ISessionRepository 
@@ -24,18 +26,17 @@ namespace GPTsanOekakidesuyoCS.Repository
 
         public async Task<IQueryable> FindById(int id)
         {
-            var dbResponses =  _context.Session
-                    .Join(_context.Message,
-                        b => b.Id,
-                        m => m.SessionsId,
-                        (joinSession, joinMessage) => new 
-                        {
-                            Session = joinSession,
-                            Message = joinMessage
-                        }
-                    )
-                    .Where( e => e.Session.Id.Equals(id));
-            return dbResponses;
+            return  _context.Session
+                .Join(_context.Message,
+                    b => b.Id,
+                    m => m.SessionsId,
+                    (joinSession, joinMessage) => new 
+                    {
+                        Session = joinSession,
+                        Message = joinMessage
+                    }
+                )
+                .Where( e => e.Session.Id.Equals(id));
         }
     }
 }

@@ -11,16 +11,6 @@ builder.Services.AddDbContext<GPTsanOekakidesuyoCSContext>(options =>
 builder.Services.AddTransient<ISessionRepository, SessionRepository>();
 builder.Services.AddTransient<IGetSessionService, GetSessionService>();
 
-//builder.Services.AddCors(options =>
-//{
-//    options.AddDefaultPolicy(
-//        policy =>
-//        {
-//            policy.WithOrigins("http://localhost:5227")
-//            .AllowAnyMethod()
-//            .AllowAnyHeader();
-//        });
-//});
 
 var provider = builder.Services.BuildServiceProvider();
 try
@@ -49,8 +39,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-//app.UseCors();
 
 app.UseAuthorization();
 
