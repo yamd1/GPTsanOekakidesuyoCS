@@ -7,8 +7,9 @@ using GPTsanOekakidesuyoCS.Repository;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<GPTsanOekakidesuyoCSContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("GPTsanOekakidesuyoCSContext") ?? throw new InvalidOperationException("Connection string 'GPTsanOekakidesuyoCSContext' not found.")));
+
+builder.Services.AddTransient<ISessionRepository, SessionRepository>();
 builder.Services.AddTransient<IGetSessionService, GetSessionService>();
-//builder.Services.AddTransient<ISessionRepository, SessionRepository>();
 
 //builder.Services.AddCors(options =>
 //{
