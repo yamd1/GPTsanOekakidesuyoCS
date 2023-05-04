@@ -12,7 +12,6 @@ namespace GPTsanOekakidesuyoCS.Controllers.session
 
         // DIに用いるフィールドを定義
         private readonly ILogger<SessionController> _logger;
-        //private readonly GPTsanOekakidesuyoCSContext _context;
         private IGetSessionService _getSessionService;
 
         // DIによる初期化

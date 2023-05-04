@@ -9,6 +9,7 @@ using NuGet.Protocol.Core.Types;
 public interface ISessionRepository 
 {
     Task<ActionResult<Session>> FindById(int id);
+    Task<ActionResult<List<Session>>> FindAll();
 }
 
 namespace GPTsanOekakidesuyoCS.Repository
@@ -36,6 +37,11 @@ namespace GPTsanOekakidesuyoCS.Repository
             return await _context.Sessions
                 .Include(s => s.Messages)
                 .FirstOrDefaultAsync(s => s.Id == id);
+        }
+
+        public async Task<ActionResult<List<Models.Session>>> FindAll()
+        { 
+            return await _context.Sessions.ToListAsync();
         }
     }
 }

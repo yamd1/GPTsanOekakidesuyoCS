@@ -10,6 +10,7 @@ builder.Services.AddDbContext<GPTsanOekakidesuyoCSContext>(options =>
 
 builder.Services.AddTransient<ISessionRepository, SessionRepository>();
 builder.Services.AddTransient<IGetSessionService, GetSessionService>();
+builder.Services.AddTransient<IGetSessionsService, GetSessionsService>();
 
 
 var provider = builder.Services.BuildServiceProvider();

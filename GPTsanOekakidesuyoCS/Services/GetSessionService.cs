@@ -47,10 +47,8 @@ namespace GPTsanOekakidesuyoCS.Services
         private List<GetMessage> CreateMessages(ActionResult<Models.Session> dbResponse)
         { 
             var getMessageList = new List<GetMessage>();
-            Console.WriteLine(dbResponse.Value.Messages);
             foreach(var message in dbResponse.Value.Messages)
             {
-                Console.WriteLine(message);
                 var getMessage = new GetMessage();
                 getMessage.Id = message.Id;
                 getMessage.Role = message.Role;
