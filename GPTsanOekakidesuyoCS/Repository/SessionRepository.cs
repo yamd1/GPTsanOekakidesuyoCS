@@ -27,6 +27,10 @@ namespace GPTsanOekakidesuyoCS.Repository
             _context = context;
         }
 
+        /**
+         * session id でDBを検索する
+         * SELECT * FROM sessions JOIN messages ON sessions.id = messages.sessionId WHERE sessions.id = :id;
+         */
         public async Task<ActionResult<Models.Session>> FindById(int id)
         {
             return await _context.Sessions
