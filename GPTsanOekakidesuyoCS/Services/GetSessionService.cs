@@ -2,6 +2,7 @@
 using GPTsanOekakidesuyoCS.Responses.Message;
 using GPTsanOekakidesuyoCS.Data;
 using GPTsanOekakidesuyoCS.Repository;
+using Microsoft.AspNetCore.Mvc;
 
 public interface IGetSessionService
 {
@@ -29,63 +30,36 @@ namespace GPTsanOekakidesuyoCS.Services
 
         public async Task<GetSessionResponse> run(int id) 
         {
-            // TODO: Firstではなく、Messageを複数取得、レスポンスを構築するように修正
-            // TODO: DB問い合わせクラスにコードを移動
-            var dbResponses = await _sessionRepository.FindById(id);
-
-            //var dbResponses =  _context.Session
-            //        .Join(_context.Message,
-            //            b => b.Id,
-            //            m => m.SessionsId,
-            //            (joinSession, joinMessage) => new 
-            //            {
-            //                Session = joinSession,
-            //                Message = joinMessage
-            //            }
-            //        )
-            //        .Where( e => e.Session.Id.Equals(id));
-            foreach (var dbResponse in dbResponses)
-            {
-                dbResponse.Session.Id;
-            }
-            var mockSession = new Models.Session();
-            //mockSession.Id = dbResponses.
-            //mockSession.Name = dbResponses.Session.Name;
-
-            var mockMessages = new List<Models.Message>();
-            var mockMessage = new Models.Message();
-            //mockMessage.Id = dbResponse.Message.Id;
-            //mockMessage.Role = dbResponse.Message.Role;
-            //mockMessage.Content = dbResponse.Message.Content;
-            //mockMessages.Add(mockMessage);
-
-            return CreateResponse(mockSession, mockMessages);
+            var dbResponse = await _sessionRepository.FindById(id);
+            return await CreateResponse(dbResponse);
         }
 
-        private GetSessionResponse CreateResponse(Models.Session session, List<Models.Message> massages)
+        private async Task<GetSessionResponse> CreateResponse(ActionResult<Models.Session> dbResponse)
         {
             var response = new GetSessionResponse();
-            response.Id = session.Id;
-            response.Name = session.Name;
-            response.Messages = CreateMessages(massages);
-            response.CreatedAt = session.CreatedAt;
-            response.UpdatedAt = session.UpdatedAt;
+            response.Id = dbResponse.Value.Id;
+            response.Name = dbResponse.Value.Name;
+            response.Messages = await CreateMessages(dbResponse);
+            response.CreatedAt = dbResponse.Value.CreatedAt;
+            response.UpdatedAt = dbResponse.Value.UpdatedAt;
 
             return response;
          }
 
-        private List<GetMessage> CreateMessages(List<Models.Message> messages)
+        private async Task<List<GetMessage>> CreateMessages(ActionResult<Models.Session> dbResponse)
         { 
-            var messageList = new List<GetMessage>();
-            for (int i = 0, len = messages.Count; i < len; i++)
+            var getMessageList = new List<GetMessage>();
+            Console.WriteLine(dbResponse.Value.Messages);
+            foreach(var message in dbResponse.Value.Messages)
             {
-                var message = new GetMessage();
-                message.Id = messages[i].Id;
-                message.Role = messages[i].Role;
-                message.Content = messages[i].Content;
-                messageList.Add(message);
+                Console.WriteLine(message);
+                var getMessage = new GetMessage();
+                getMessage.Id = message.Id;
+                getMessage.Role = message.Role;
+                getMessage.Content = message.Content;
+                getMessageList.Add(getMessage);
             }
-            return messageList;
+            return getMessageList;
         }
     }
 }

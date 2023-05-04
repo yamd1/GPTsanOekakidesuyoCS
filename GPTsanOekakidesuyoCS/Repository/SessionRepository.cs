@@ -1,11 +1,14 @@
 ﻿using GPTsanOekakidesuyoCS.Data;
+using GPTsanOekakidesuyoCS.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.OpenApi.Any;
 using NuGet.Protocol.Core.Types;
 
 public interface ISessionRepository 
 {
-    Task<IQueryable> FindById(int id);
+    Task<ActionResult<Session>> FindById(int id);
 }
 
 namespace GPTsanOekakidesuyoCS.Repository
@@ -24,19 +27,11 @@ namespace GPTsanOekakidesuyoCS.Repository
             _context = context;
         }
 
-        public async Task<IQueryable> FindById(int id)
+        public async Task<ActionResult<Models.Session>> FindById(int id)
         {
-            return  _context.Session
-                .Join(_context.Message,
-                    b => b.Id,
-                    m => m.SessionsId,
-                    (joinSession, joinMessage) => new 
-                    {
-                        Session = joinSession,
-                        Message = joinMessage
-                    }
-                )
-                .Where( e => e.Session.Id.Equals(id));
+            return await _context.Sessions
+                .Include(s => s.Messages)
+                .FirstOrDefaultAsync(s => s.Id == id);
         }
     }
 }

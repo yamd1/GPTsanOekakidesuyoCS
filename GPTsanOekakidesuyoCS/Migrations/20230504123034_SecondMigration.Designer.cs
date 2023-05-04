@@ -4,6 +4,7 @@ using GPTsanOekakidesuyoCS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GPTsanOekakidesuyoCS.Migrations
 {
     [DbContext(typeof(GPTsanOekakidesuyoCSContext))]
-    partial class GPTsanOekakidesuyoCSContextModelSnapshot : ModelSnapshot
+    [Migration("20230504123034_SecondMigration")]
+    partial class SecondMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,6 +47,9 @@ namespace GPTsanOekakidesuyoCS.Migrations
                     b.Property<int>("SessionId")
                         .HasColumnType("int");
 
+                    b.Property<int>("SessionsId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -51,7 +57,7 @@ namespace GPTsanOekakidesuyoCS.Migrations
 
                     b.HasIndex("SessionId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Message");
                 });
 
             modelBuilder.Entity("GPTsanOekakidesuyoCS.Models.Session", b =>
@@ -74,7 +80,7 @@ namespace GPTsanOekakidesuyoCS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sessions");
+                    b.ToTable("Session");
                 });
 
             modelBuilder.Entity("GPTsanOekakidesuyoCS.Models.Message", b =>

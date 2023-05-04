@@ -14,7 +14,7 @@ namespace GPTsanOekakidesuyoCS.Data
         {
         }
 
-        public DbSet<GPTsanOekakidesuyoCS.Models.Session> Session { get; set; } = default!;
-        public DbSet<GPTsanOekakidesuyoCS.Models.Message> Message { get; set; } = default!;
+        public DbSet<GPTsanOekakidesuyoCS.Models.Session> Sessions { get; set; } = default!;
+        public DbSet<GPTsanOekakidesuyoCS.Models.Message> Messages { get; set; } = default!;
     }
 }
