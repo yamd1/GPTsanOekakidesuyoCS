@@ -10,6 +10,7 @@ public interface ISessionRepository
 {
     Task<ActionResult<Session>> FindById(int id);
     Task<ActionResult<List<Session>>> FindAll();
+    Task<ActionResult<Session>> Create(IPostSessionRequest _postSessionRequest);
 }
 
 namespace GPTsanOekakidesuyoCS.Repository
@@ -42,6 +43,12 @@ namespace GPTsanOekakidesuyoCS.Repository
         public async Task<ActionResult<List<Models.Session>>> FindAll()
         { 
             return await _context.Sessions.ToListAsync();
+        }
+
+        public async Task<ActionResult<Models.Session>> Create()
+        {
+            return await _context.Sessions
+                .Add();
         }
     }
 }

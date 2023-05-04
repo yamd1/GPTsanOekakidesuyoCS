@@ -7,8 +7,14 @@ public class DbInitializer
     public static async Task SeedingAsync(GPTsanOekakidesuyoCSContext context)
     {
         await context.Database.EnsureCreatedAsync();
-        if (await context.Sessions.AnyAsync())
-            return;
+        //if (await context.Sessions.AnyAsync())
+        //    return;
+
+        // テーブルデータを削除
+        context.Messages.RemoveRange(context.Messages);
+        context.Sessions.RemoveRange(context.Sessions);
+
+        // シードデータを挿入
         await context.Sessions.AddRangeAsync(
             new Session { Name = "Test1 ", CreatedAt = new DateTime(2023-05-01), UpdatedAt = null},
             new Session { Name = "Test2 ", CreatedAt = new DateTime(2023-05-01), UpdatedAt = null},
