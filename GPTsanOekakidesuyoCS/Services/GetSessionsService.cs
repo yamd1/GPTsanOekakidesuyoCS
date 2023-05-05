@@ -3,7 +3,7 @@ using GPTsanOekakidesuyoCS.Responses.Sessions;
 
 public interface IGetSessionsService 
 {
-    Task<GetSessionsResponse> run();
+    Task<GetSessionsResponse> Run();
 }
 
 namespace GPTsanOekakidesuyoCS.Services
@@ -21,7 +21,7 @@ namespace GPTsanOekakidesuyoCS.Services
             _sessionRepository = sessionRepository;
         }
 
-        public async Task<GetSessionsResponse> run() 
+        public async Task<GetSessionsResponse> Run() 
         {
             var dbResponse = await _sessionRepository.FindAll();
             return CreateResponse(dbResponse);

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 public interface IGetSessionService
 {
-    Task<GetSessionResponse> run(int id);
+    Task<GetSessionResponse> Run(int id);
 }
 
 namespace GPTsanOekakidesuyoCS.Services
@@ -26,7 +26,7 @@ namespace GPTsanOekakidesuyoCS.Services
             _sessionRepository = sessionRepository;
         }
 
-        public async Task<GetSessionResponse> run(int id) 
+        public async Task<GetSessionResponse> Run(int id) 
         {
             var dbResponse = await _sessionRepository.FindById(id);
             return CreateResponse(dbResponse);

@@ -1,5 +1,10 @@
 ﻿
-public interface IPostSessionRequest { };
+public interface IPostSessionRequest 
+{
+    int Id { get; set; }
+    string Name { get; set; }
+    string Message { get; set; }
+};
 
 namespace GPTsanOekakidesuyoCS.Requests.Session
 {
