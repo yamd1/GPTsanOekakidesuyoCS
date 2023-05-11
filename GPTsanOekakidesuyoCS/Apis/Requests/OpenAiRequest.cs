@@ -6,6 +6,6 @@ namespace GPTsanOekakidesuyoCS.Apis.Requests
     {
         public string model { get; set; }
         public List<IOpenAiMessage> messages { get; set; }
-        public int temperature { get; set; }
+        public double temperature { get; set; }
     }
 }

@@ -2,6 +2,9 @@
 using GPTsanOekakidesuyoCS.Responses.Session;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using GPTsanOekakidesuyoCS.Apis.Requests;
+using GPTsanOekakidesuyoCS.Apis.Interface;
+using GPTsanOekakidesuyoCS.Apis.Responses;
 
 public interface IPostSessionService 
 {
@@ -45,7 +48,7 @@ namespace GPTsanOekakidesuyoCS.Services
 
 
                 var userMessage = CreateUserMessage(_postSessionRequest);
-                var openAiRequest = CreateRequestWithWessionOpenAi(session, userMessage);
+                var openAiRequest = CreateRequestWithSessionOpenAi(session, userMessage);
             }
 
             return new PostSessionResponse();
@@ -56,15 +59,33 @@ namespace GPTsanOekakidesuyoCS.Services
             return _postSessionRequest.Id != 0;
         }
 
-        private IUserMessage CreateUserMessage(IPostSessionRequest _postSessionRequest)
+        private IOpenAiMessage CreateUserMessage(IPostSessionRequest _postSessionRequest)
         { 
-            var userMessage = new UserMessage();
+            var userMessage = new OpenAiMessage();
             userMessage.role = "user";
             userMessage.content = _postSessionRequest.Message;
             return userMessage;
         }
 
-        private 
+        private OpenAiRequest CreateRequestWithSessionOpenAi(ActionResult<Models.Session> session, IOpenAiMessage userMessage)
+        {
+            var messages = new List<IOpenAiMessage>();
+            foreach(var message in session.Value.Messages)
+            {
+                var m = new OpenAiMessage();
+                m.role = message.Role;
+                m.content = message.Content;
+                messages.Add(m);
+            }
+            messages.Add(userMessage);
+            
+            var openAiRequest = new OpenAiRequest();
+            openAiRequest.messages = messages;
+            openAiRequest.model = Environment.GetEnvironmentVariable("OPEN_AI_MODEL");
+            openAiRequest.temperature = 0.7;
+
+            return openAiRequest;
+        }
 
     }
 
